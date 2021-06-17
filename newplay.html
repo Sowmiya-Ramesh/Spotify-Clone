@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  
+
+    <title>NewPlayList</title>
+    <style>
+        *{
+            font-family: 'Times New Roman', Times, serif;
+            color:white;
+            
+        }
+        .search-container button:hover {
+  background: #ccc;
+}
+
+ul{
+    list-style-type: none;
+}
+.btn img {  
+    display: inline-block;
+    vertical-align: middle;
+    /* background: #f00; */
+    padding: 4px;
+    border-radius: 5px;
+
+} 
+.dropbtn {
+  background-color: grey;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+}
+a{
+    text-decoration: none;
+    color:white;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: black;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color:black;}
+
+  .col-lg-3::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+</style>
+</head>
+<body>
+   
+   <div class="container">
+       <div class="row">
+           <div class="col-lg-3 col-md-3 col-sm-3 " style="background-color: black;">
+       <div class="left-box">
+           <ul>
+               <li>
+               <i class="fa fa-home"></i> <a class="active" href="./index.html" style="color:white">Home</a>
+            </li>
+            <li><input type="text" placeholder="Search.." name="search">
+                <button type="submit"><i class="fa fa-search" style="text-align: center;"></i></button>
+            </li>
+            <li>
+                <a href="./newplay.html" style="color:white"><button type="submit"><i class="fa fa-plus-circle" style="text-align: center;"></i></button>Create Playlist</a>
+            </li>
+            <li><div class="myplaylist">
+                <a href="./myplay.html" style="color:white">My playlist</a> 
+            </div></li>
+           </ul>
+       </div>
+   </div> 
+
+
+   <div  class="col-lg-6 col-md-6 col-sm-6 " style=" overflow: scroll;padding-top: 50px;background-image: linear-gradient(to bottom, blue ,black, grey);">
+   <br> <img style="width:40%;height:200px;" src="https://img.jakpost.net/c/2020/02/22/2020_02_22_87150_1582360576._large.jpg">
+    <h3><b>Lets find something for your playlist !!</b></h3>  <br><br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Album/Podcast</th>
+            <th scope="col">Add</th>
+            <!-- <th scope="col"><select name="dropdwon" id="">...
+              <option value="">Reorder</option>
+              <option value="">Remove</option>
+              <option value="">Replace</option>
+            </select></th> -->
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tdata"></tbody>
+      </table>
+      </div>         
+
+
+   <div class="col-lg-3 col-md-3 col-sm-3 " style="background-color: grey;overflow: scroll;">
+    <h3><B>Friends Activity</B></h3>
+    <p>Connect with facebook to see what your friends are playing</p>
+    <i class="fa fa-facebook-official" style="color:skyblue;font-size: 1cm;"></i>
+</div>
+   
+   </div>
+</div>
+   
+
+<!-- Script File -->
+<script>
+  //           let currentUserId = null;
+  // async function getUsers() {
+  // try {
+  // const users = await fetch("https://60c839fbafc88600179f65d7.mockapi.io/users").then((res) => res.json());
+  // console.log(users);
+  // let table = document.getElementById("tdata");
+  // users.forEach((usr, idx) => {
+  // let tr = document.createElement("tr");
+  // tr.appendChild(document.createElement("td"));
+  // tr.appendChild(document.createElement("td"));
+  // tr.appendChild(document.createElement("td"));
+  // tr.appendChild(document.createElement("td"));
+  // let btnDiv = document.createElement("div");
+  //           let btnadd = document.createElement("button");
+  //           btnadd.innerHTML = "Add";
+  //           btnadd.onclick = function(){
+  //               addUser(usr)
+  //           }
+  
+  // tr.cells[0].innerHTML = `${usr.id}`;
+  // tr.cells[1].innerHTML = `${usr.name}`;
+  // tr.cells[2].innerHTML = `${usr.email}`;
+  // tr.cells[4].appendChild(btnDiv)
+  // btnDiv.appendChild(btnadd);
+  // table.appendChild(tr);
+  // });
+  // } catch (error) {
+  // console.log(error);
+  // }
+  // }
+  // async function addUser() {
+  //       let data = {
+  //         name: document.getElementById("name").value,
+  //         phone: document.getElementById("phone").value,
+  //       };
+  //       let result = await fetch(
+  //         "https://60c839fbafc88600179f65d7.mockapi.io/users",
+  //         {
+  //           method: "POST",   
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify(data),
+  //         }
+  //       );
+  //       console.log(data);
+  //       $("#exampleModal").modal('toggle');
+  //       alert("done")}
+        //getUsers();
+        let currentUserId = null;
+      async function getUsers() {
+        try {
+          const users = await fetch("https://60c839fbafc88600179f65d7.mockapi.io/users").then((res) => res.json());
+          console.log(users);
+          let table = document.getElementById("tdata");
+          users.forEach((usr, idx) => {
+            let tr = document.createElement("tr");
+            tr.appendChild(document.createElement("td"));
+            tr.appendChild(document.createElement("td"));
+            tr.appendChild(document.createElement("td"));
+            tr.appendChild(document.createElement("td"));
+            tr.appendChild(document.createElement("td"));
+            let btnDiv = document.createElement("div");
+            let btnadd = document.createElement("button");
+            btnadd.innerHTML = "Add";
+            btnadd.style.color="black";
+            btnadd.onclick = function(){
+                addUser(usr)
+            }
+            let div=document.createElement('div');
+            div.setAttribute("class","dropdown");
+            let button=document.createElement("button");
+            button.setAttribute("class",'dropbtn')
+            button.innerHTML="...";
+            let div1=document.createElement("div");
+            div1.setAttribute("class","dropdown-content");
+            let option1=document.createElement("a");
+            option1.innerHTML="Reorder";
+            let option2=document.createElement("a");
+            option2.innerHTML="Replace";
+            let option3=document.createElement("a");
+            option3.innerHTML="Delete";
+  
+            div1.append(option1,option2,option3);
+            div.append(button,div1);
+            
+            img=document.createElement('img');
+            img.src="https://images-na.ssl-images-amazon.com/images/I/61OTozwevnL._AC_SY355_.jpg";
+            img.style.width="2cm";
+            img.style.height="2cm";
+            tr.cells[0].appendChild(img);
+            tr.cells[1].innerHTML = `${usr.name}`;
+            tr.cells[2].innerHTML = `${usr.email}`;
+            tr.cells[3].appendChild(btnDiv);
+            tr.cells[4].appendChild(div);
+            
+            btnDiv.appendChild(btnadd);
+            table.appendChild(tr);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      async function addUser() {
+        let data = {
+          name: document.getElementById("name").value,
+          phone: document.getElementById("phone").value,
+        };
+        let result = await fetch(
+          "https://60c839fbafc88600179f65d7.mockapi.io/users",
+          {
+            method: "POST",   
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+        console.log(data);
+        $("#exampleModal").modal('toggle');
+        alert("done")}
+      getUsers();
+        </script>
+</body>
+</html>
